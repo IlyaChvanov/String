@@ -1,0 +1,4 @@
+# ninja log v5
+8	1151	7357403863037637	CMakeFiles/stringProject.dir/src/MyString.cpp.obj	804dc6a799b99c15
+1	1300	7357403864529163	CMakeFiles/stringProject.dir/src/main.cpp.obj	a903403b5f512b68
+1300	1671	7357403868209166	stringProject.exe	7d76e4ea1495c4e5
