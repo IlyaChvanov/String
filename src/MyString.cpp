@@ -18,26 +18,26 @@ MyString::MyString(const MyString &other) : str_len(other.str_len) {
     strcpy(ptrstr, other.ptrstr);
 }
 
-MyString::MyString(MyString &&other) : str_len(other.str_len) {
-    ptrstr = new char[str_len];
-    strcpy(ptrstr, other.ptrstr);
+MyString::MyString(MyString &&other) noexcept : str_len(other.str_len) {
+    ptrstr = other.ptrstr;
     other.~MyString();
 }
 
 MyString::~MyString() {
-    delete[] this->ptrstr;
-    this->ptrstr = nullptr;
+    delete[] ptrstr;
+    ptrstr = nullptr;
+    str_len = 0;
 }
 
 unsigned int MyString::length() const { return str_len; };
 
 char *MyString::get() const { return ptrstr; }
 
-MyString operator+(MyString first_string, MyString second_string) {
-    unsigned int new_str_len = first_string.length() + second_string.length();
+MyString operator+(const MyString& first_string, const MyString& second_string) {
+    unsigned int new_str_len = first_string.length() + second_string.length() ;
     char *new_str = new char[new_str_len];
     auto counter = 0;
-    for (int i; counter < first_string.length(); i++) {
+    for (int i = 0; counter < first_string.length(); i++) {
         new_str[counter] = first_string.get()[counter];
         counter++;
     }
@@ -46,10 +46,10 @@ MyString operator+(MyString first_string, MyString second_string) {
         counter++;
     }
 
-    return MyString(new_str);
+    return {new_str};
 }
 
-MyString operator-(MyString first_string, MyString second_string) {
+MyString operator-(const MyString& first_string, const MyString& second_string) {
     std::string new_str = first_string.get();
     std::string new_second_string = second_string.get();
     constexpr int err = -1;
@@ -58,10 +58,10 @@ MyString operator-(MyString first_string, MyString second_string) {
             new_str.erase(new_str.find(i), 1);
 
     }
-    return MyString(new_str);
+    return {new_str};
 }
 
-MyString operator*(const MyString str, unsigned int scale) {
+MyString operator*(const MyString& str, unsigned int scale) {
     unsigned int new_str_len = str.length() * scale;
     char *new_str = new char[new_str_len];
     unsigned int counter = 0;
@@ -71,10 +71,13 @@ MyString operator*(const MyString str, unsigned int scale) {
             counter++;
         }
     }
-    return new_str;
+    return MyString(new_str);
 }
 
 MyString &MyString::operator=(const MyString &other) {
+    if (other.ptrstr == nullptr)
+        return *this;
+
     MyString::~MyString();
     this->str_len = other.length();
     ptrstr = new char[str_len];
@@ -83,7 +86,7 @@ MyString &MyString::operator=(const MyString &other) {
     return *this;
 }
 
-MyString &MyString::operator=(const MyString &&other) {
+MyString &MyString::operator=(MyString &&other) {
     MyString::~MyString();
     this->str_len = other.length();
     ptrstr = new char[str_len];
@@ -102,19 +105,19 @@ bool MyString::operator==(const MyString &other) {
     return false;
 }
 
-bool MyString::operator==(const char *other) {
+bool MyString::operator==(const char *other) const {
     if (strcmp(this->get(), other) == 0)
         return true;
     return false;
 }
 
-bool MyString::operator!=(const MyString &other) {
+bool MyString::operator!=(const MyString &other) const {
     if (strcmp(this->get(), other.get()) == 0)
         return false;
     return true;
 }
 
-bool MyString::operator!=(const char *other) {
+bool MyString::operator!=(const char *other) const {
     if (strcmp(this->get(), other) == 0)
         return false;
     return true;
@@ -122,49 +125,49 @@ bool MyString::operator!=(const char *other) {
 
 bool MyString::operator>(const MyString &other) {
     std::string first_string = ptrstr;
-    std::string seocnd_string = other.get();
-    if (first_string > seocnd_string)
+    std::string second_string = other.get();
+    if (first_string > second_string)
         return true;
     return false;
 }
 
-bool MyString::operator>(const char *other) {
+bool MyString::operator>(const char *other) const {
     if (std::string(this->get()) > std::string(other))
         return true;
     return false;
 }
 
-bool MyString::operator<(const MyString &other) {
+bool MyString::operator<(const MyString &other) const {
     if (std::string(this->get()) > std::string(other.get()))
         return false;
     return true;
 }
 
-bool MyString::operator<(const char *other) {
+bool MyString::operator<(const char *other) const {
     if (std::string(this->get()) > std::string(other))
         return false;
     return true;
 }
 
-bool MyString::operator>=(const MyString &other) {
+bool MyString::operator>=(const MyString &other) const {
     if (std::string(this->get()) >= std::string(other.get()))
         return true;
     return false;
 }
 
-bool MyString::operator>=(const char *other) {
+bool MyString::operator>=(const char *other) const {
     if (std::string(this->get()) >= std::string(other))
         return true;
     return false;
 }
 
-bool MyString::operator<=(const MyString &other) {
+bool MyString::operator<=(const MyString &other) const {
     if (std::string(this->get()) > std::string(other.get()))
         return false;
     return true;
 }
 
-bool MyString::operator<=(const char *other) {
+bool MyString::operator<=(const char *other) const {
     if (std::string(this->get()) > std::string(other))
         return false;
     return true;

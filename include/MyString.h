@@ -7,40 +7,40 @@ public:
     MyString(std::string);
 
     MyString(const MyString &);
-    MyString(MyString &&);
+    MyString(MyString &&) noexcept;
     ~MyString();
 
     unsigned int length() const;
 
-    char *get() const;
+    char* get() const;
 
     MyString &operator=(const MyString &);
 
-    MyString &operator=(const MyString &&);
+    MyString &operator=(MyString &&);
 
     bool operator==(const MyString &);
 
-    bool operator==(const char *);
+    bool operator==(const char *) const;
 
-    bool operator!=(const MyString &);
+    bool operator!=(const MyString &) const;
 
-    bool operator!=(const char *);
+    bool operator!=(const char *) const;
 
     bool operator>(const MyString &);
 
-    bool operator>(const char *);
+    bool operator>(const char *) const;
 
-    bool operator<(const MyString &);
+    bool operator<(const MyString &) const;
 
-    bool operator<(const char *);
+    bool operator<(const char *) const;
 
-    bool operator>=(const MyString &);
+    bool operator>=(const MyString &) const;
 
-    bool operator>=(const char *);
+    bool operator>=(const char *) const;
 
-    bool operator<=(const MyString &);
+    bool operator<=(const MyString &) const;
 
-    bool operator<=(const char *);
+    bool operator<=(const char *) const;
 
     MyString &operator!();
 
@@ -48,7 +48,7 @@ public:
 
     int operator()(const char *);
 
-    int operator()(const char);
+    int operator()(char);
 
     int operator()(const MyString &);
 
@@ -61,9 +61,9 @@ private:
     char *ptrstr = nullptr;
 };
 
-MyString operator+(const MyString, const MyString);
+MyString operator+(const MyString&, const MyString&);
 
-MyString operator-(const MyString, const MyString);
+MyString operator-(const MyString&, const MyString&);
 
-MyString operator*(const MyString, unsigned int);
+MyString operator*(const MyString&, unsigned int);
 
