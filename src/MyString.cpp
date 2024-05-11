@@ -79,7 +79,7 @@ MyString &MyString::operator=(const MyString &other) {
         return *this;
 
     MyString::~MyString();
-    this->str_len = other.length();
+    str_len = other.length();
     ptrstr = new char[str_len];
     for (int i = 0; i < str_len; i++)
         ptrstr[i] = other.get()[i];
@@ -88,7 +88,7 @@ MyString &MyString::operator=(const MyString &other) {
 
 MyString &MyString::operator=(MyString &&other) {
     MyString::~MyString();
-    this->str_len = other.length();
+    str_len = other.length();
     ptrstr = new char[str_len];
     for (int i = 0; i < str_len; i++)
         ptrstr[i] = other.get()[i];
