@@ -6,11 +6,11 @@ class MyString {
 public:
     MyString() = default;
 
-    explicit MyString(const char *);
+    MyString(const char *);
 
-    explicit MyString(char *);
+    MyString(char *);
 
-    explicit MyString(std::string);
+    MyString(std::string);
 
     MyString(const MyString &);
     MyString(MyString &&) noexcept;
