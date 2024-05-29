@@ -38,14 +38,14 @@ size_t MyString::length() const { return str_len; };
 char * MyString::get() const { return ptrstr; }
 
 MyString operator+(const MyString& first_string, const MyString& second_string) {
-    unsigned int new_str_len = first_string.length() + second_string.length() ;
+    size_t new_str_len = first_string.length() + second_string.length() ;
     char *new_str = new char[new_str_len];
     auto counter = 0;
-    for (int i = 0; counter < first_string.length(); i++) {
+    for (size_t i = 0; counter < first_string.length(); i++) {
         new_str[counter] = first_string.get()[counter];
         counter++;
     }
-    for (int i = 0; i < second_string.length(); i++) {
+    for (size_t i = 0; i < second_string.length(); i++) {
         new_str[counter] = second_string.get()[i];
         counter++;
     }
@@ -60,16 +60,15 @@ MyString operator-(const MyString& first_string, const MyString& second_string) 
     for (char i: new_second_string) {
         while (new_str.find(i) != err)
             new_str.erase(new_str.find(i), 1);
-
     }
     return {new_str};
 }
 
-MyString operator*(const MyString& str, unsigned int scale) {
+MyString operator*(const MyString& str, size_t scale) {
     unsigned int new_str_len = str.length() * scale;
     char *new_str = new char[new_str_len];
     unsigned int counter = 0;
-    for (int i = 0; i < scale; i++) {
+    for (size_t i = 0; i < scale; i++) {
         for (int j = 0; j < str.length(); j++) {
             new_str[counter] = str.get()[j];
             counter++;
@@ -79,10 +78,15 @@ MyString operator*(const MyString& str, unsigned int scale) {
 }
 
 MyString &MyString::operator=(const MyString &other) {
-    if (other.ptrstr == nullptr)
+    if (other.ptrstr == nullptr) {
+        this->ptrstr = nullptr;
+        this->str_len = 0;
+        return *this;
+    }
+
+    if (other.ptrstr == this->ptrstr)
         return *this;
 
-    MyString::~MyString();
     str_len = other.length();
     ptrstr = new char[str_len];
     for (int i = 0; i < str_len; i++)
@@ -91,7 +95,15 @@ MyString &MyString::operator=(const MyString &other) {
 }
 
 MyString &MyString::operator=(MyString &&other) {
-    MyString::~MyString();
+    if (other.ptrstr == nullptr) {
+        this->ptrstr = nullptr;
+        this->str_len = 0;
+        return *this;
+    }
+
+    if (other.ptrstr == this->ptrstr)
+        return *this;
+    
     str_len = other.length();
     ptrstr = new char[str_len];
     for (int i = 0; i < str_len; i++)
