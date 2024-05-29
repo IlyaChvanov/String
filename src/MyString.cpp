@@ -8,6 +8,11 @@ MyString::MyString(const char *st) : str_len(strlen(st)) {
     strcpy(ptrstr, st);
 }
 
+MyString::MyString(char *otherptr) {
+    ptrstr = otherptr;
+    str_len = strlen(otherptr);
+}
+
 MyString::MyString(std::string st) : str_len(st.length()) {
     ptrstr = new char[str_len];
     strcpy(ptrstr, &st[0]);
@@ -26,12 +31,11 @@ MyString::MyString(MyString &&other) noexcept : str_len(other.str_len) {
 MyString::~MyString() {
     delete[] ptrstr;
     ptrstr = nullptr;
-    str_len = 0;
 }
 
-unsigned int MyString::length() const { return str_len; };
+size_t MyString::length() const { return str_len; };
 
-char *MyString::get() const { return ptrstr; }
+char * MyString::get() const { return ptrstr; }
 
 MyString operator+(const MyString& first_string, const MyString& second_string) {
     unsigned int new_str_len = first_string.length() + second_string.length() ;
@@ -71,7 +75,7 @@ MyString operator*(const MyString& str, unsigned int scale) {
             counter++;
         }
     }
-    return MyString(new_str);
+    return {new_str};
 }
 
 MyString &MyString::operator=(const MyString &other) {
@@ -215,13 +219,38 @@ int MyString::operator()(const MyString &other) {
     return -1;
 }
 
-void MyString::operator<<(MyString &other) {
-    for (int i = 0; i < other.length(); i++)
-        std::cout << other.ptrstr[i];
+std::istream& operator>>(std::istream &stream, MyString& str) {
+    char* new_str = new char[10];
+    size_t i = 0;
+    size_t j = 1;
+    size_t str_len = 10;
+    while (std::cin.get(new_str[i])) {
+        if (new_str[i] == 10) {
+            break;
+        }
+        i++;
+        if (i > str_len - 2) {
+            j++;
+            str_len *= j;
+            char* buff_str = new char[str_len];
+            strcpy(buff_str, new_str);
+            delete[] new_str;
+            new_str = buff_str;
+        }
+    }
+    i++;
+    while (i < str_len) {
+        new_str[i] = '\0';
+        i++;
+    }
+    str = MyString(new_str);
+    return stream;
 }
 
-void MyString::operator>>(MyString &other) {
-    for (int i = 0; i < other.length(); i++)
-        std::cin >> other.ptrstr[i];
+std::ostream& operator<<(std::ostream& stream, const MyString &str) {
+    for (size_t i = 0; i < str.length(); i++) {
+        std::cout<<str.get()[i];
+    }
+    return stream;
 }
 

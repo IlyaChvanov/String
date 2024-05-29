@@ -1,8 +1,14 @@
 #include <string>
+#include <iostream>
+#include <cstring>
 
 class MyString {
 public:
+    MyString() = default;
+
     MyString(const char *);
+
+    MyString(char *);
 
     MyString(std::string);
 
@@ -10,7 +16,7 @@ public:
     MyString(MyString &&) noexcept;
     ~MyString();
 
-    unsigned int length() const;
+    size_t length() const;
 
     char* get() const;
 
@@ -52,14 +58,14 @@ public:
 
     int operator()(const MyString &);
 
-    void operator>>(MyString &);
-
-    void operator<<(MyString &);
-
 private:
     unsigned int str_len = 0;
     char *ptrstr = nullptr;
 };
+
+std::istream& operator>>(std::istream &, MyString &str);
+
+std::ostream& operator<<(std::ostream&, const MyString &);
 
 MyString operator+(const MyString&, const MyString&);
 
