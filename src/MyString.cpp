@@ -33,7 +33,7 @@ MyString::~MyString() {
     ptrstr = nullptr;
 }
 
-size_t MyString::length() const { return str_len; };
+size_t MyString::length() const { return str_len; }
 
 char * MyString::get() const { return ptrstr; }
 
@@ -94,7 +94,7 @@ MyString &MyString::operator=(const MyString &other) {
     return *this;
 }
 
-MyString &MyString::operator=(MyString &&other) {
+MyString &MyString::operator=(MyString &&other)  noexcept {
     if (other.ptrstr == nullptr) {
         this->ptrstr = nullptr;
         this->str_len = 0;
@@ -103,7 +103,7 @@ MyString &MyString::operator=(MyString &&other) {
 
     if (other.ptrstr == this->ptrstr)
         return *this;
-    
+
     str_len = other.length();
     ptrstr = new char[str_len];
     for (int i = 0; i < str_len; i++)
@@ -206,7 +206,7 @@ char MyString::operator[](unsigned int index) {
 
 int MyString::operator()(const char *sub_string) {
     std::string str = ptrstr;
-    unsigned int pos = str.find(sub_string);
+    size_t pos = str.find(sub_string);
 
     if (pos != std::string::npos)
         return pos;
@@ -215,7 +215,7 @@ int MyString::operator()(const char *sub_string) {
 
 int MyString::operator()(char sub_string) {
     std::string str = ptrstr;
-    unsigned int pos = str.find(sub_string);
+    size_t pos = str.find(sub_string);
 
     if (pos != std::string::npos)
         return pos;
@@ -224,7 +224,7 @@ int MyString::operator()(char sub_string) {
 
 int MyString::operator()(const MyString &other) {
     std::string str = ptrstr;
-    unsigned int pos = str.find(other.get());
+    size_t pos = str.find(other.get());
 
     if (pos != std::string::npos)
         return pos;
