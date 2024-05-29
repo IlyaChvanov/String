@@ -50,7 +50,7 @@ public:
 
     MyString &operator!();
 
-    char operator[](unsigned int);
+    char operator[](size_t);
 
     int operator()(const char *);
 
@@ -59,7 +59,7 @@ public:
     int operator()(const MyString &);
 
 private:
-    unsigned int str_len = 0;
+    size_t str_len = 0;
     char *ptrstr = nullptr;
 };
 
@@ -71,5 +71,5 @@ MyString operator+(const MyString&, const MyString&);
 
 MyString operator-(const MyString&, const MyString&);
 
-MyString operator*(const MyString&, unsigned int);
+MyString operator*(const MyString&, size_t);
 

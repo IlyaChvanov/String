@@ -65,9 +65,9 @@ MyString operator-(const MyString& first_string, const MyString& second_string) 
 }
 
 MyString operator*(const MyString& str, size_t scale) {
-    unsigned int new_str_len = str.length() * scale;
+    size_t new_str_len = str.length() * scale;
     char *new_str = new char[new_str_len];
-    unsigned int counter = 0;
+    size_t counter = 0;
     for (size_t i = 0; i < scale; i++) {
         for (int j = 0; j < str.length(); j++) {
             new_str[counter] = str.get()[j];
@@ -200,7 +200,7 @@ MyString &MyString::operator!() {
     return *this;
 }
 
-char MyString::operator[](unsigned int index) {
+char MyString::operator[](size_t index) {
     return ptrstr[index];
 }
 
