@@ -6,11 +6,11 @@ class MyString {
 public:
     MyString() = default;
 
-    MyString(const char *);
+    explicit MyString(const char *);
 
-    MyString(char *);
+    explicit MyString(char *);
 
-    MyString(std::string);
+    explicit MyString(std::string);
 
     MyString(const MyString &);
     MyString(MyString &&) noexcept;
@@ -22,7 +22,7 @@ public:
 
     MyString &operator=(const MyString &);
 
-    MyString &operator=(MyString &&);
+    MyString &operator=(MyString &&) noexcept ;
 
     bool operator==(const MyString &);
 
