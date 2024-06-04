@@ -25,7 +25,7 @@ MyString::MyString(const MyString &other) : str_len(other.str_len) {
 
 MyString::MyString(MyString &&other) noexcept : str_len(other.str_len) {
     ptrstr = other.ptrstr;
-    other.~MyString();
+    other.deletePtr();
 }
 
 MyString::~MyString() {
@@ -230,6 +230,11 @@ int MyString::operator()(const MyString &other) {
         return pos;
     return -1;
 }
+
+void MyString::deletePtr() {
+    ptrstr = nullptr;
+}
+
 
 std::istream& operator>>(std::istream &stream, MyString& str) {
     char* new_str = new char[10];

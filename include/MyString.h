@@ -20,6 +20,8 @@ public:
 
     char* get() const;
 
+    void deletePtr();
+
     MyString &operator=(const MyString &);
 
     MyString &operator=(MyString &&) noexcept ;
@@ -61,6 +63,7 @@ public:
 private:
     size_t str_len = 0;
     char *ptrstr = nullptr;
+    
 };
 
 std::istream& operator>>(std::istream &, MyString &str);
