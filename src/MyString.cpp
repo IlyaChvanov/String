@@ -25,7 +25,6 @@ MyString::MyString(const MyString &other) : str_len(other.str_len) {
 
 MyString::MyString(MyString &&other) noexcept : str_len(other.str_len) {
     ptrstr = other.ptrstr;
-    other.deletePtr();
 }
 
 MyString::~MyString() {
