@@ -30,9 +30,9 @@ int main() {
     std::cout << '\n' << "d1 = " << (!d1).get() << " is found at index: " << d2(d1) << " in string d2 = " << d2.get();
     MyString g1;
     MyString g2;
-    std::cout << '\n' << "enter 2 strings";
+    std::cout << '\n' << "enter 2 strings" << '\n';
     std::cin >> g1 >> g2;
-    std::cout << "The first is: "<< g1 <<'\n';
-    std::cout << "The second is: "<< g2 <<'\n';
+    std::cout << "The first is: "<< g1;
+    std::cout << "The second is: "<< g2;
     return 0;
 }
