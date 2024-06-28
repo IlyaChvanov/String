@@ -67,11 +67,11 @@ private:
 
 std::istream& operator>>(std::istream &, MyString &str);
 
-std::ostream& operator<<(std::ostream&, const MyString &);
+std::ostream& operator<<(std::ostream &, const MyString &);
 
-MyString operator+(const MyString&, const MyString&);
+MyString operator+(const MyString &, const MyString &);
 
-MyString operator-(const MyString&, const MyString&);
+MyString operator-(const MyString &, const MyString &);
 
-MyString operator*(const MyString&, size_t);
+MyString operator*(const MyString &, size_t);
 
