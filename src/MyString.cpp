@@ -4,7 +4,7 @@
 #include "../include/MyString.h"
 
 MyString::MyString(const char *st) : str_len(strlen(st)) {
-    ptrstr = new char[str_len];
+    ptrstr = new char[str_len + 1];
     strcpy(ptrstr, st);
 }
 
@@ -19,14 +19,14 @@ MyString::MyString(std::string st) : str_len(st.length()) {
 }
 
 MyString::MyString(const MyString &other) : str_len(other.str_len) {
-    ptrstr = new char[str_len];
+    ptrstr = new char[str_len + 1];
     strcpy(ptrstr, other.ptrstr);
 }
 
-MyString::MyString(MyString &&other) noexcept : str_len(other.str_len) {
-    ptrstr = other.ptrstr;
-    str_len = other.str_len;
-    other.deletePtr();
+MyString::MyString(MyString &&other) noexcept
+    : ptrstr(other.ptrstr), str_len(other.str_len) {
+  other.ptrstr = nullptr;
+  other.str_len = 0;
 }
 
 MyString::~MyString() {
@@ -79,39 +79,33 @@ MyString operator*(const MyString& str, size_t scale) {
 }
 
 MyString &MyString::operator=(const MyString &other) {
-    if (other.ptrstr == nullptr) {
-        this->ptrstr = nullptr;
-        this->str_len = 0;
+    if (this == &other) {
         return *this;
     }
 
-    if (other.ptrstr == this->ptrstr)
-        return *this;
-
+    delete[] ptrstr;
     str_len = other.length();
-    ptrstr = new char[str_len];
-    for (int i = 0; i < str_len; i++)
-        ptrstr[i] = other.get()[i];
+    ptrstr = new char[str_len + 1];
+    strcpy(ptrstr, other.ptrstr);
+
     return *this;
 }
 
-MyString &MyString::operator=(MyString &&other)  noexcept {
-    if (other.ptrstr == nullptr) {
-        this->ptrstr = nullptr;
-        this->str_len = 0;
-        return *this;
-    }
 
-    if (other.ptrstr == this->ptrstr)
-        return *this;
-
-    str_len = other.length();
-    ptrstr = new char[str_len];
-    for (int i = 0; i < str_len; i++)
-        ptrstr[i] = other.get()[i];
-
-    other.~MyString();
+MyString &MyString::operator=(MyString &&other) noexcept {
+  if (this == &other) {
     return *this;
+  }
+
+  delete[] ptrstr;
+
+  ptrstr = other.ptrstr;
+  str_len = other.str_len;
+
+  other.ptrstr = nullptr;
+  other.str_len = 0;
+
+  return *this;
 }
 
 bool MyString::operator==(const MyString &other) {
